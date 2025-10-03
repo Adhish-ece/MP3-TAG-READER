@@ -1,0 +1,39 @@
+
+structure of the ID3v2 header
+_____________________________________________________________________________________________________________________________________
+| Byte(s) | Field                      | Size (bytes) | Description                                                                  |
+| ------- | -------------------------- | ------------ | ---------------------------------------------------------------------------- |
+| 0–2     | **Identifier**             | 3            | Always `"ID3"` – indicates the start of an ID3v2 tag                         |
+| 3       | **Version major**          | 1            | Major version number (e.g., 3 for ID3v2.3, 4 for ID3v2.4)                    |
+| 4       | **Version revision/minor** | 1            | Revision number (usually 0)                                                  |
+| 5       | **Flags**                  | 1            | Bit flags (e.g., unsynchronisation, extended header, experimental indicator) |
+| 6–9     | **Size**                   | 4            | Size of the tag **excluding the header**, stored as a **syncsafe integer**   |
+|____________________________________________________________________________________________________________________________________|
+
+
+
+| Feature                     |             ID3v1 | ID3v2.2                | ID3v2.3                      | ID3v2.4                                                            |
+| --------------------------- | ----------------: | ---------------------- | ---------------------------- | ------------------------------------------------------------------ |
+| Location                    |       End of file | Start                  | Start                        | Start                                                              |
+| Header signature            |             `TAG` | `ID3` + ver 2          | `ID3` + ver 3                | `ID3` + ver 4                                                      |
+| Header length               |         128 bytes | 10 bytes + frames      | 10 bytes + frames            | 10 bytes + frames (+ optional footer)                              |
+| Frame ID length             |   N/A (no frames) | **3 bytes**            | **4 bytes**                  | **4 bytes**                                                        |
+| Frame size field            |               N/A | 3 bytes (raw)          | 4 bytes (big-endian)         | 4 bytes **synchsafe**                                              |
+| Text encoding byte          | fixed ASCII in v1 | present in text frames | present                      | present                                                            |
+| Some frame name differences |               N/A | TT2, TP1, TAL          | TIT2, TPE1, TALB             | TDRC replaces TYER (date), etc.                                    |
+| Footer support              |                No | No                     | No                           | can have footer (if header flags set)                              |
+| Backwards compatibility     |                No | Some                   | Widely supported             | Less widely supported historically                                 |
+| Use when writing            |    Very old tools | Rare                   | Most common widely-supported | Newer features (but fewer players fully support all v2.4 features) |
+
+
+Simple Text Frames (TIT2, TALB, etc.)
+Structure: [Encoding] [BOM] [Text Data...]
+
+In these frames, the UTF-16 text starts immediately after the single 1-byte Encoding field.
+
+If the encoding is 0x01 (UTF-16), the standard recommends placing the BOM (0xFF FE or 0xFE FF) right at the beginning of the text data to indicate the endianness.
+
+Your code correctly searches for the BOM in these cases.
+
+2. The Comment Frame (COMM)
+Structure: [Encoding] [Language] [Description] [Comment Text...]
