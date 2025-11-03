@@ -66,7 +66,7 @@ To edit a specific tag, use the `-e` option along with the appropriate modifier 
 | :--- | :--- |
 | **main.c** | The entry point of the program. It handles command-line argument parsing and directs flow to the core functions. |
 | **mp3tag.h** | Contains **structure definitions** (for ID3 header, frame header) and function prototypes. |
-| **mp3tag.c** | Implementation of core logic: `read_tag_info()`, `edit_tag_info()`, and helper functions for bitwise conversions. |
+| **mp3tag.c** | Implementation of core logic: `View()`, `Edit()`, and helper functions for bitwise conversions. |
 
 ---
 
