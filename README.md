@@ -65,8 +65,10 @@ To edit a specific tag, use the `-e` option along with the appropriate modifier 
 | File | Description |
 | :--- | :--- |
 | **main.c** | The entry point of the program. It handles command-line argument parsing and directs flow to the core functions. |
-| **mp3tag.h** | Contains **structure definitions** (for ID3 header, frame header) and function prototypes. |
-| **mp3tag.c** | Implementation of core logic: `View()`, `Edit()`, and helper functions for bitwise conversions. |
+| **utility.** | Contains function prototypes. |
+| **uitility.c** | Implementation of core logic: `View()`, `Edit()`, and helper functions for bitwise conversions. |
+| **common.h.** | Contains **global**  `extern` variable declarations, macros, type definitions, and enumerations (enums) required across the project.|
+
 
 ---
 
